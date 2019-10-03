@@ -1,0 +1,97 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" />
+    <link href="css/main.css" rel="stylesheet" />
+</head>
+
+
+<body>
+    <div class="container">
+
+
+        <div class="s01">
+            <form>
+                <fieldset class="field_set">
+                    <strong>
+                        <legend style="color: black" align="center">Offline Verifier POC</legend>
+                    </strong>
+                </fieldset>
+                <div align="center">
+                    <h3>Valid only for the current minute. Please request a new code if needed.</h3>
+                </div>
+                <div class="inner-form">
+                    <div class="input-field first-wrap">
+                        <input id="ownerPass" type="password" placeholder="Password" />
+                    </div>
+                    <div class="input-field first-wrap">
+                        <input id="code" type="text" placeholder="Enter Your Code" />
+                    </div>
+                    <div class="input-field third-wrap">
+                        <button id="btnVerify" class="btn-search" type="button"><strong>Verify</strong></button>
+                    </div>
+                    
+                </div>
+                <div align="center">
+                        <h3><stong>Download Verifier app from Play Store and App Store now!</strong></h3>
+                        <div class="row">
+                            <div class="column">
+                                <img src="/images/play.png" style="width: 20%">
+                                <img src="/images/appstore.png" style="width: 18%">
+                            </div>
+                        </div>
+                    </div>
+            </form>
+        </div>
+
+        <script>
+            let button;
+            var Util = {
+                stringToASCIISum: function (value) {
+                    return value
+                        .split('')
+                        .map(function (char) {
+                            return char.charCodeAt(0);
+                        })
+                        .reduce(function (curr, prev) {
+                            return prev + curr;
+                        });
+                }
+            }
+
+            btnv = document.getElementById("btnVerify");
+            btnv.addEventListener("click", () => {
+                console.log("Verification Requested")
+                var minute = new Date();
+                minute = minute.getMinutes();
+                console.log("Minutes ", minute)
+                var code = document.getElementById("code").value;
+                var name = document.getElementById("ownerPass").value;
+                var nameLength = name.length;
+                console.log(code);
+                console.log(name)
+                console.log("Length :",nameLength)
+
+                var asciisum=Util.stringToASCIISum(name);
+                console.log("ASCII Sum :",asciisum);
+                var matchCode = (minute) * (nameLength) * asciisum;
+                console.log("Code : ",matchCode);
+                if (code == matchCode) {
+                    console.log("Success!");
+                    window.alert("Success!")
+                }
+                else {
+                    console.log("Failed! Try again...")
+                    window.alert("Failed! Try Again")
+                }
+            });
+
+        </script>
+</body>
+<html>
